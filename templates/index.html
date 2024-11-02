@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Cloud Computing Lab 7</title>
+    <!-- Bootstrap CSS -->
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="text-center mb-4">Cloud Computing Lab 7</h1>
+        <p class="text-center mb-4">Muhammad Ichsan Khairullah - 2006596264</p>
+        <p class="text-center mb-4"></p>
+
+        <!-- Form 1 -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Luas Persegi</h2>
+            </div>
+            <div class="card-body">
+                <form id="form1">
+                    <div class="form-group">
+                        <label for="input_data1">Masukkan rusuk:</label>
+                        <input type="text" id="input_data1" name="input_data1" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="card-footer">
+                <h3>Hasil luas persegi:</h3>
+                <pre id="result1" class="bg-light p-3">Rusuk belum terisi.</pre>
+            </div>
+        </div>
+
+        <!-- Form 2 -->
+        <div class="card mb-4">
+            <div class="card-header">
+                <h2>Luas Permukaan Kubus</h2>
+            </div>
+            <div class="card-body">
+                <form id="form2">
+                    <div class="form-group">
+                        <label for="input_data2">Masukkan rusuk:</label>
+                        <input type="text" id="input_data2" name="input_data2" class="form-control" required>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+            <div class="card-footer">
+                <h3>Hasil luas persegi:</h3>
+                <pre id="result2" class="bg-light p-3">Rusuk belum terisi.</pre>
+            </div>
+        </div>
+    </div>
+
+    <!-- JavaScript for handling AJAX requests -->
+    <script>
+        // JavaScript to handle Form 1 submission with JSON
+        document.getElementById("form1").addEventListener("submit", async function(event) {
+            event.preventDefault();  // Prevent page reload
+
+            // Collect form data
+            const input_data1 = document.getElementById("input_data1").value;
+
+            try {
+                // Send data as JSON
+                const response = await fetch("/submit-form1/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ "rusuk": input_data1 })
+                });
+
+                const result = await response.json();
+
+                // Update the result section for Form 1
+                const resultDiv1 = document.getElementById("result1");
+                if (result.success) {
+                    resultDiv1.textContent = JSON.stringify(result.data, null, 2);
+                } else {
+                    resultDiv1.textContent = "Error: " + result.error;
+                }
+            } catch (error) {
+                console.error("Error submitting Form 1:", error);
+                document.getElementById("result1").textContent = "Error submit data pada luas persegi.";
+            }
+        });
+
+        // JavaScript to handle Form 2 submission with JSON
+        document.getElementById("form2").addEventListener("submit", async function(event) {
+            event.preventDefault();
+
+            const input_data2 = document.getElementById("input_data2").value;
+
+            try {
+                const response = await fetch("/submit-form2/", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ "rusuk": input_data2 })
+                });
+
+                const result = await response.json();
+
+                // Update the result section for Form 2
+                const resultDiv2 = document.getElementById("result2");
+                if (result.success) {
+                    resultDiv2.textContent = JSON.stringify(result.data, null, 2);
+                } else {
+                    resultDiv2.textContent = "Error: " + result.error;
+                }
+            } catch (error) {
+                console.error("Error submitting Form 2:", error);
+                document.getElementById("result2").textContent = "Error submit data pada luas permukaan kubus.";
+            }
+        });
+    </script>
+
+    <!-- Bootstrap JS and dependencies (optional, for some components) -->
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.1/dist/umd/popper.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>
