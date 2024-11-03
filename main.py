@@ -9,8 +9,8 @@ app = FastAPI()
 # Set up the Jinja2 templates directory
 templates = Jinja2Templates(directory="templates")
 
-LUAS_PERSEGI_URL = "http://3.84.181.191:8080/function/luas-persegi"
-LUAS_PERMUKAAN_KUBUS_URL = "http://107.20.20.111:8080/function/luas-permukaan-kubus"
+LUAS_PERSEGI_URL = "http://98.80.10.249:8080/function/luas-persegi"
+LUAS_PERMUKAAN_KUBUS_URL = "http://52.90.249.200:8080/function/luas-permukaan-kubus"
 
 
 # Models.
